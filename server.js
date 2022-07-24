@@ -2,15 +2,18 @@ import express from 'express'
 import mongoose from 'mongoose'
 import Message from './Schemas/dbMessages.js'
 import Pusher from 'pusher'
+import Dotenv from 'dotenv'
+
+Dotenv.config()
 
 const app = express()
 const port = process.env.PORT || 9000
 
 const pusher = new Pusher({
-    appId: "1441999",
-    key: "f668ce0438a8322f5f1a",
-    secret: "01656c6ee7dcbc721fde",
-    cluster: "ap2",
+    appId: process.env.PUSHER_APPID,
+    key: process.env.PUSHER_KEY,
+    secret:process.env.PUSHER_SECRET,
+    cluster: process.env.PUSHER_CLUSTER,
     useTLS: true
   });
   
@@ -40,7 +43,7 @@ app.use(express.json())
 // DB Configs
 // const dburl = 'mongodb+srv://JustChatIt:U6GPcaXLcCCUwyAy@cluster0.xypklem.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 const dburl = 'mongodb://JustChatIt:U6GPcaXLcCCUwyAy@ac-pleczyg-shard-00-00.xypklem.mongodb.net:27017,ac-pleczyg-shard-00-01.xypklem.mongodb.net:27017,ac-pleczyg-shard-00-02.xypklem.mongodb.net:27017/?ssl=true&replicaSet=atlas-lukhn1-shard-0&authSource=admin&retryWrites=true&w=majority'
-mongoose.connect(dburl, {
+mongoose.connect(process.env.MONGO_URI, {
     // useCreateIndex : true,
     useNewUrlParser:true,
     useUnifiedTopology: true
