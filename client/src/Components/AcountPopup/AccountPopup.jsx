@@ -11,8 +11,14 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { logout } from "../../firebase";
+import { useDispatch } from 'react-redux';
+import { LogoutUser } from '../../Redux/Slices/userSlice';
+import { ClearChats } from '../../Redux/Slices/chatSlice';
+import { clearSelectedChat } from '../../Redux/Slices/selectedChat';
+import { clearMessages } from '../../Redux/Slices/messageSlice';
 
 export default function AccountMenu() {
+  const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -21,6 +27,14 @@ export default function AccountMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleLogout = ()=>{
+    dispatch(LogoutUser())
+    dispatch(ClearChats())
+    dispatch(clearMessages())
+    dispatch(clearSelectedChat())
+    logout()
+  }
   return (
     <React.Fragment>
         <Tooltip title="Account settings">
@@ -88,7 +102,7 @@ export default function AccountMenu() {
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem onClick={logout}>
+        <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

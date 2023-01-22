@@ -45,6 +45,7 @@ const signInWithGoogle = async () => {
         name: user.displayName,
         authProvider: "google",
         email: user.email,
+        photoURL:user.photoURL || ""
       });
     }
   } catch (err) {
@@ -65,20 +66,22 @@ const logInWithEmailAndPassword = async (email, password) => {
 const registerWithEmailAndPassword = async (name, email, password) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password)
-    .then(async function(result) {
-      const user = result.user;
-      await addDoc(collection(db, "users"), {
-        uid: user.uid,
-        name,
-        authProvider: "local",
-        email,
-      });
-      return result.user.updateProfile({
-        displayName: name
+      .then(async function (result) {
+        const user = result.user;
+        await addDoc(collection(db, "users"), {
+          uid: user.uid,
+          name,
+          authProvider: "local",
+          email,
+          photoURL:user.photoURL || ""
+        });
+        return result.user.updateProfile({
+          displayName: name,
+        });
       })
-    }).catch(function(error) {
-      console.log(error);
-    });
+      .catch(function (error) {
+        console.log(error);
+      });
   } catch (err) {
     console.error(err);
     alert(err.message);
@@ -98,7 +101,6 @@ const sendPasswordReset = async (email) => {
 const logout = () => {
   signOut(auth);
 };
-
 
 export {
   auth,

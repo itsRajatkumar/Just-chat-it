@@ -13,14 +13,14 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [user, loading, error] = useAuthState(auth);
-  const history = useNavigate();
+  const navigate = useNavigate();
   const register = () => {
     if (!name) alert("Please enter name");
     registerWithEmailAndPassword(name, email, password);
   };
   useEffect(() => {
     if (loading) return;
-    if (user) history("/");
+    if (user) navigate("/");
   }, [user, loading]);
   return (
     <div className="register">
@@ -52,7 +52,7 @@ function Signup() {
         <button
           onClick={signInWithGoogle}
           type="button"
-          class="login-with-google-btn"
+          className="login-with-google-btn"
         >
           Register with Google
         </button>

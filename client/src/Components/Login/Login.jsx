@@ -38,7 +38,7 @@ function Login() {
         >
           Login
         </button>
-        <button onClick={signInWithGoogle} type="button" class="login-with-google-btn" >
+        <button onClick={signInWithGoogle} type="button" className="login-with-google-btn" >
   Sign in with Google
 </button>
         <div>

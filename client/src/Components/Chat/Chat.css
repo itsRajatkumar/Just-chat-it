@@ -45,8 +45,8 @@
     font-size: 16px;
     padding: 14px;
     /* width: 50%; */
-    /* height: 20px; */
-    width: fit-content;
+    /* height: fit-content; */
+    /* width: fit-content; */
     max-width: 80%;
     border-radius: 10px;
     border-top-left-radius: 0;
@@ -69,6 +69,7 @@
 
 .chat__name{
     position: absolute;
+    /* width: fit-content; */
     top: 0px;
     font-weight: 800;
     font-size: xx-small;
@@ -103,4 +104,12 @@
 .chat__footer > .MuiSvgIcon-root{
     padding: 10px;
     color: gray;
+}
+
+.chat_spinner{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

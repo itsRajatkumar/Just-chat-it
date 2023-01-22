@@ -4,9 +4,12 @@ import { Routes, Route } from "react-router-dom";
 import Login from "./Components/Login/Login";
 import Signup from "./Components/Signup/Signup";
 import Reset from "./Components/Reset/Reset";
+import { Provider } from 'react-redux';
+import store from './Redux/store';
 
 function App() {
   return (
+    <Provider store={store}>
       <Router>
         <Routes>
           <Route path="/" element={<ChatComp />} />
@@ -15,6 +18,7 @@ function App() {
           <Route path="/reset" element={<Reset />} />
         </Routes>
       </Router>
+    </Provider>
   );
 }
 

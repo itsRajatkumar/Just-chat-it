@@ -1,12 +1,12 @@
-import express from 'express'
-import { CreateMessage } from '../services/message.services.js'
-const app = express()
+import { Router } from "express";
+const app = Router();
+import { CreateMessageRoute,GetAllMessageRoute } from "../services/message.services.js";
 
 // get requests
 // app.get('/getAll',(req,res)=>CreateMessage(req,res))
-app.get('/getAfter/:id',(req,res)=>res.status(200).send('hello'))
+app.get('/message/:id',(req,res)=>GetAllMessageRoute(req,res))
 
 // post requests
-app.post('/create-new',(req,res)=>CreateMessage(req,res))
+app.post("/message/create-new", (req, res) => CreateMessageRoute(req, res));
 
 export default app;

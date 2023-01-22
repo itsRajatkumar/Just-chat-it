@@ -1,33 +1,67 @@
-import React from 'react'
+import { CircularProgress } from "@mui/material";
+import React, { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import pusher from "../../pusher"
+import { addtoChatid } from '../../Redux/Slices/messageSlice';
+import { updateLastChat } from '../../Redux/Slices/chatSlice';
 
-const ChatBody = () => {
-    const d = new Date()
-    const time = d.toLocaleTimeString()
+const ChatBody = ({ data, uid, Resultloading }) => {
+  const dispatch = useDispatch()
+  const messages = useSelector((state) => state.messages);
+  const selectedChat = useSelector((state) => state.selectedChat);
+  const loginuser = useSelector((state) => state.user);
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView();
+  };
+
+  const channel = pusher.subscribe(selectedChat.chatId);
+
+  channel.bind("new-message", function (newMessage) {
+    console.log(newMessage) 
+    if(newMessage.from !== loginuser.uid){
+      console.log(newMessage.fromName)
+      dispatch(addtoChatid({chatId:selectedChat.chatId,data:newMessage}))
+      dispatch(updateLastChat({chatId:selectedChat.chatId,last_message:newMessage?.message,last_message_from:newMessage?.fromName}))
+    }
+ });
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [Resultloading,messages[ messages.findIndex(i => i.chatId === selectedChat.chatId)]?.messages]);
+
+  const Showdate = (date) => {
+    const d = new Date(date);
+    return d.toLocaleTimeString();
+  };
   return (
     <div className="chat__body">
-            <p className='chat__message'>
-                <span className='chat__name'>Rajat</span>
-                This is a message
-                <span className="chat__timestamp">
-                    {time}
-                </span>
+      {!Resultloading &&
+        messages[ messages.findIndex(i => i.chatId === selectedChat.chatId)]?.messages?.map((item, index) => {
+          return (
+            <p
+              key={index}
+              className={`chat__message ${
+                item.from === uid ? "chat__receiver" : ""
+              }`}
+            >
+              <span className="chat__name">{item?.fromName}</span>
+              {item?.message}
+              <span className="chat__timestamp">
+                {Showdate(item?.createdAt)}
+              </span>
             </p>
-            <p className='chat__message chat__receiver'>
-                <span className='chat__name'>Rajat</span>
-                This is a message Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi, illo fugiat! Quod, adipisci! Error tenetur nisi optio? Incidunt ea, necessitatibus minima iste esse obcaecati voluptas, est voluptate beatae sint dolor!
-                <span className="chat__timestamp">
-                    {time}
-                </span>
-            </p>
-            <p className='chat__message'>
-                <span className='chat__name'>Rajat</span>
-                This is a message
-                <span className="chat__timestamp">
-                    {time}
-                </span>
-            </p>
+          );
+        })}
+      {Resultloading && (
+        <div className="chat_spinner">
+          <CircularProgress />
         </div>
-  )
-}
+      )}
+      <div ref={messagesEndRef}></div>
+    </div>
+  );
+};
 
-export default ChatBody
+export default ChatBody;
