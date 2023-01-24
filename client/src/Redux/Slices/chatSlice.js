@@ -22,11 +22,19 @@ export const chatSlice = createSlice({
       );
     },
     ClearChats: () => initialState,
+    addNewChat:(state, action)=>{
+      const index =  state.findIndex(i => i._id === action.payload._id)
+      if(index ===-1){
+        let newChats = [action.payload, ...state]
+        state.length = 0;
+        state.push(...newChats);
+      }
+    }
   },
 });
 
 // this is for dispatch
-export const { addAllChats, updateLastChat, ClearChats } = chatSlice.actions;
+export const { addAllChats, updateLastChat, ClearChats, addNewChat } = chatSlice.actions;
 
 // this is for configureStore
 export default chatSlice.reducer;

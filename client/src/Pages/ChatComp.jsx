@@ -8,6 +8,7 @@ import { auth, db } from "../firebase";
 import { query, collection, getDocs, where } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
 import { LoginUser } from "../Redux/Slices/userSlice";
+import { CircularProgress } from "@mui/material";
 
 function ChatComp() {
     const [user, loading, error] = useAuthState(auth);
@@ -33,13 +34,18 @@ function ChatComp() {
     return (
       <div className="app">
         
-      <div className="app__body">
+      {!loading &&<div className="app__body">
        {/* sidebar */}
        <Sidebar/>
        {/* chat */}
        <Chat/>
         {/* <button onClick={logout}>Logout</button> */}
-      </div>
+      </div>}
+      {loading && (
+        <div className="chat_spinner">
+          <CircularProgress />
+        </div>
+      )}
       </div>
     );
 }

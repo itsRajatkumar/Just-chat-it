@@ -6,8 +6,10 @@ const CreateChatRoute = async (req, res) => {
   try {
     const data = req.body;
     const responce = await CreateChat(data);
-    console.log(responce)
     if (responce.status) {
+      responce.data.members.map(item=>{
+        pusher.trigger(item.uid, "new-chat", responce.data);
+      })
       return SuccessResponse(res, 201, "Created", responce.data);
     } else {
       return ErrorResponse(res, 404, "Error");

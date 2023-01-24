@@ -1,31 +1,31 @@
-import React from 'react'
-import ChatIcon from '@mui/icons-material/Chat';
-import DonutLargeIcon from '@mui/icons-material/DonutLarge';
-import { Avatar, IconButton } from '@mui/material';
-import AccountMenu from '../AcountPopup/AccountPopup';
-import { useSelector } from 'react-redux';
+import React from "react";
+import ChatIcon from "@mui/icons-material/Chat";
+import DonutLargeIcon from "@mui/icons-material/DonutLarge";
+import { Avatar, IconButton } from "@mui/material";
+import AccountMenu from "../AcountPopup/AccountPopup";
+import { useSelector } from "react-redux";
 
-const SidebarHeader = () => {
-    const user = useSelector((state) => state.user);
+const SidebarHeader = ({setOpenSearch}) => {
+  const user = useSelector((state) => state.user);
   return (
-    <div className="sidebar__header">
-    <div className="sidebar__headerLeft">
+    <div className="sidebar__header ">
+      <div className="sidebar__headerLeft">
         <Avatar src={user?.photoURL} />
-    </div>
-    <div className="sidebar__headerRight">
+      </div>
+      <div className="sidebar__headerRight">
         <IconButton>
-            <DonutLargeIcon />
+          <DonutLargeIcon />
         </IconButton>
-        <IconButton>
-            <ChatIcon />
+        <IconButton onClick={()=>setOpenSearch(1)}>
+          <ChatIcon/>
         </IconButton>
-        <AccountMenu/>
+        <AccountMenu />
         {/* <IconButton>
             <MoreVertIcon />
         </IconButton> */}
+      </div>
     </div>
-</div>
-  )
-}
+  );
+};
 
-export default SidebarHeader
+export default SidebarHeader;
