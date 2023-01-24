@@ -1,12 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = []
+const initialState = [];
 export const chatSlice = createSlice({
   name: "chats",
   initialState,
   reducers: {
     addAllChats: (state, action) => {
-      state.push(...action.payload);
+      if (state.length === 0) {
+        state.push(...action.payload);
+      }
     },
     updateLastChat: (state, action) => {
       const index = state.findIndex((i) => i._id === action.payload.chatId);
@@ -24,7 +26,7 @@ export const chatSlice = createSlice({
 });
 
 // this is for dispatch
-export const { addAllChats, updateLastChat,ClearChats } = chatSlice.actions;
+export const { addAllChats, updateLastChat, ClearChats } = chatSlice.actions;
 
 // this is for configureStore
 export default chatSlice.reducer;

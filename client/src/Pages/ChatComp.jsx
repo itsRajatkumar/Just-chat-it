@@ -13,7 +13,7 @@ function ChatComp() {
     const [user, loading, error] = useAuthState(auth);
     const navigate = useNavigate();
     const dispatch = useDispatch()
-    const loginUser = useSelector(state=>state.user)
+    // const loginUser = useSelector(state=>state.user)
     const fetchUserName = async () => {
       try {
         const q = query(collection(db, "users"), where("uid", "==", user?.uid));

@@ -4,17 +4,16 @@ import ChatBody from "./ChatBody";
 import ChatFooter from "./ChatFooter";
 import ChatHeader from "./ChatHeader";
 import axios from "axios";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { addAllMessages } from "../../Redux/Slices/messageSlice";
 
 const Chat = () => {
   const dispatch = useDispatch();
   const selectedChat = useSelector((state) => state.selectedChat);
+  const user = useSelector((state) => state.user);
   const messages = useSelector((state) => state.messages);
   const value = selectedChat.value
-  const [user, loading, error] = useAuthState(auth);
+  // const [user, loading, error] = useAuthState(auth);
   // const [message, setMessage] = useState([]);
   const [Resultloading, setResultLoading] = useState(false);
   // console.log(message);
@@ -39,15 +38,15 @@ const Chat = () => {
       });
   };
   useEffect(() => {
-    if (loading) {
-      return;
-    }
+    // if (loading) {
+    //   return;
+    // }
     if(value !== -1){
       if( messages.findIndex(i => i.chatId === selectedChat.chatId)===-1){
         fetchMesages()
       }
     }
-  }, [user, loading,value]);
+  }, [user,value]);
   return (
     <div className="chat">
       <ChatHeader />

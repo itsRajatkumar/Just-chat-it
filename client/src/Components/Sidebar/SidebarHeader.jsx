@@ -3,11 +3,10 @@ import ChatIcon from '@mui/icons-material/Chat';
 import DonutLargeIcon from '@mui/icons-material/DonutLarge';
 import { Avatar, IconButton } from '@mui/material';
 import AccountMenu from '../AcountPopup/AccountPopup';
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../firebase";
+import { useSelector } from 'react-redux';
 
 const SidebarHeader = () => {
-    const [user, loading, error] = useAuthState(auth);
+    const user = useSelector((state) => state.user);
   return (
     <div className="sidebar__header">
     <div className="sidebar__headerLeft">

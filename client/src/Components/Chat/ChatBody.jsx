@@ -16,18 +16,18 @@ const ChatBody = ({ data, uid, Resultloading }) => {
     messagesEndRef.current?.scrollIntoView();
   };
 
-  const channel = pusher.subscribe(selectedChat.chatId);
-
-  channel.bind("new-message", function (newMessage) {
-    console.log(newMessage) 
-    if(newMessage.from !== loginuser.uid){
-      console.log(newMessage.fromName)
-      dispatch(addtoChatid({chatId:selectedChat.chatId,data:newMessage}))
-      dispatch(updateLastChat({chatId:selectedChat.chatId,last_message:newMessage?.message,last_message_from:newMessage?.fromName}))
-    }
- });
-
+  
   useEffect(() => {
+    const channel = pusher.subscribe(selectedChat.chatId);
+  
+    channel.bind("new-message", function (newMessage) {
+      console.log(newMessage) 
+      if(newMessage.from !== loginuser.uid){
+        console.log(newMessage.fromName)
+        dispatch(addtoChatid({chatId:selectedChat.chatId,data:newMessage}))
+        dispatch(updateLastChat({chatId:selectedChat.chatId,last_message:newMessage?.message,last_message_from:newMessage?.fromName}))
+      }
+   });
     scrollToBottom();
   }, [Resultloading,messages[ messages.findIndex(i => i.chatId === selectedChat.chatId)]?.messages]);
 

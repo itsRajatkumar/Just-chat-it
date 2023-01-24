@@ -1,8 +1,5 @@
 import { Avatar, Button, Tooltip } from "@mui/material";
 import React, { useEffect } from "react";
-import { useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../firebase";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { addAllChats } from "../../Redux/Slices/chatSlice";
@@ -13,7 +10,7 @@ import axios from "axios";
 const SidebarChat = () => {
   const dispatch = useDispatch();
   const chats = useSelector((state) => state.chats);
-  const [user, loading, error] = useAuthState(auth);
+  const user = useSelector((state) => state.user);
 
   const fetchChats = async () => {
     axios
@@ -29,11 +26,8 @@ const SidebarChat = () => {
   };
 
   useEffect(() => {
-    if (loading) {
-      return;
-    }
     fetchChats();
-  }, [user, loading]);
+  }, [user]);
 
   return (
     <>
@@ -68,15 +62,17 @@ const SidebarChat = () => {
                     background: "none",
                     margin: "0px",
                     minWidth: "0",
-                    color:"#8696a0"
+                    color: "#8696a0",
                   }}
                   sx={{ m: 1, padding: 0, margin: 0 }}
                   size="small"
                   variant="text"
                 >
-                  { item?.last_message_from?.split(" ")[0]+ ": " + (item?.last_message.length > 20
-                    ? item?.last_message.slice(0, 20) + "..."
-                    : item?.last_message)}
+                  {item?.last_message_from?.split(" ")[0] +
+                    ": " +
+                    (item?.last_message.length > 20
+                      ? item?.last_message.slice(0, 20) + "..."
+                      : item?.last_message)}
                 </Button>
               </Tooltip>
               {/* {item?.last_message.length > 20
