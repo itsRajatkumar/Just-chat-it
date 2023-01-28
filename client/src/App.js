@@ -6,6 +6,7 @@ import Signup from "./Components/Signup/Signup";
 import Reset from "./Components/Reset/Reset";
 import { Provider } from 'react-redux';
 import store from './Redux/store';
+import Toasts from "./Components/PopupToasts/Toats";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/reset" element={<Reset />} />
         </Routes>
       </Router>
+      <Toasts />
     </Provider>
   );
 }

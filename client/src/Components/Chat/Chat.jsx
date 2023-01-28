@@ -26,11 +26,11 @@ const Chat = () => {
         }/message/${selectedChat.chatId}?page=${1}`
       )
       .then((response) => {
-        const products = response.data;
+        const resp = response.data;
         dispatch(
           addAllMessages({
             chatId: selectedChat.chatId,
-            messages: products.data,
+            messages: resp.data,
           })
         );
         // setMessage(products.data);

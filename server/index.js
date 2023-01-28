@@ -22,7 +22,7 @@ const app = express();
 const port = process.env.PORT || 8000;
 
 var corsOptions = {
-  origin: ["https://just-chat-it.web.app","http://localhost:3000","https://3000-itsrajatkuma-justchatit-7ne62q3cvdt.ws-us83.gitpod.io"],
+  origin: ["https://just-chat-it.web.app","http://localhost:3000","https://3000-itsrajatkuma-justchatit-7ne62q3cvdt.ws-us84.gitpod.io"],
   optionsSuccessStatus: 200 // For legacy browser support
 }
   

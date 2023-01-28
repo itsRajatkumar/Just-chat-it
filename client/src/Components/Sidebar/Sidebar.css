@@ -78,11 +78,25 @@
     border-bottom: 1px solid #f6f6f6;
 }
 
-.zero_with_size{
-    /* width: 0; */
-}
 .header_search_new{
     /* position: absolute; */
     /* width: 0; */
     display: none;
+}
+
+.sidebarChat_skeleton{
+    display: flex;
+    padding: 20px;
+    cursor: pointer;
+    border-bottom: 1px solid #f6f6f6;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px;
+}
+
+.sidebarChat__info_skeleton{
+    width: 100%;
+    padding-left: 20px;
 }

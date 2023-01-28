@@ -4,24 +4,29 @@ import { SearchOutlined } from "@mui/icons-material";
 import SidebarChat from "./SidebarChat";
 import SidebarHeader from "./SidebarHeader";
 import NewChatSearch from "./NewChatSearch";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addNewChat } from "../../Redux/Slices/chatSlice";
 import { changeChat } from "../../Redux/Slices/selectedChat";
 import pusher from "../../pusher";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase";
+import { ToastEmmitor } from "../../Utills/OpenToast";
 const Sidebar = () => {
   const dispatch = useDispatch();
+  const selectedChat = useSelector((state) => state.selectedChat);
   const [user, loading, error] = useAuthState(auth);
   const [searchInput, setSearchInput] = useState("");
   const [openSearch, setOpenSearch] = useState(0)
   useEffect(() => {
     const channel = pusher.subscribe(user.uid);
 
-    channel.bind("new-chat", function (newMessage) {
-      console.log(newMessage)
-      dispatch(addNewChat(newMessage))
-      dispatch(changeChat({ id: 0, chatId: newMessage._id }));
+    channel.bind("new-chat", function (newChat) {
+      dispatch(addNewChat(newChat))
+      dispatch(changeChat({ id: (selectedChat.value+1), chatId: selectedChat.chatId }));
+      ToastEmmitor("info","new Chat")
+      // console.log(newMessage.members[newMessage.members.length-1].uid)
+      // if(newMessage.members[newMessage.members.length-1].uid === user.uid){
+      // }
     })
   }, [])
   

@@ -16,6 +16,7 @@ import {
   where,
   addDoc,
 } from "firebase/firestore";
+import { ToastEmmitor } from "./Utills/OpenToast";
 // Initialize Firebase
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -37,29 +38,30 @@ const signInWithGoogle = async () => {
   try {
     const res = await signInWithPopup(auth, googleProvider);
     const user = res.user;
-    const q = query(collection(db, "users"), where("uid", "==", user.uid));
+    const q = query(collection(db, "users"), where("uid", "==", user?.uid));
     const docs = await getDocs(q);
     if (docs.docs.length === 0) {
       await addDoc(collection(db, "users"), {
-        uid: user.uid,
-        name: user.displayName,
+        uid: user?.uid,
+        name: user?.displayName,
         authProvider: "google",
-        email: user.email,
-        photoURL:user.photoURL || ""
+        email: user?.email,
+        photoURL:user?.photoURL || ""
       });
     }
   } catch (err) {
     console.error(err);
-    alert(err.message);
+    ToastEmmitor("error",err.message)
   }
 };
 
 const logInWithEmailAndPassword = async (email, password) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
+    ToastEmmitor("success","Login Success")
   } catch (err) {
     console.error(err);
-    alert(err.message);
+    ToastEmmitor("error",err.message)
   }
 };
 
@@ -69,37 +71,38 @@ const registerWithEmailAndPassword = async (name, email, password) => {
       .then(async function (result) {
         const user = result.user;
         await addDoc(collection(db, "users"), {
-          uid: user.uid,
+          uid: user?.uid,
           name,
           authProvider: "local",
           email,
-          photoURL:user.photoURL || ""
+          photoURL:user?.photoURL || ""
         });
-        return result.user.updateProfile({
-          displayName: name,
-        });
+        ToastEmmitor("success","Login Success")
       })
       .catch(function (error) {
+        ToastEmmitor("error",error.message)
         console.log(error);
       });
   } catch (err) {
     console.error(err);
-    alert(err.message);
+    ToastEmmitor("error",err.message)
   }
 };
 
 const sendPasswordReset = async (email) => {
   try {
     await sendPasswordResetEmail(auth, email);
-    alert("Password reset link sent!");
+    ToastEmmitor("success","Password reset link sent!");
   } catch (err) {
     console.error(err);
-    alert(err.message);
+    ToastEmmitor("error",err.message)
   }
 };
 
 const logout = () => {
   signOut(auth);
+  ToastEmmitor("success","Logout Success")
+
 };
 
 export {

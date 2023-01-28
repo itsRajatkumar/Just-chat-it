@@ -15,6 +15,7 @@ const ChatFooter = () => {
     const [input, setInput] = useState('')
     const handleSubmit = (e)=>{
         e.preventDefault()
+        if(input == "")return
         axios.post(`${process.env.REACT_APP_SERVER_API}/message/create-new`, { 
                 message: input,
                 chat_id: selectedChat.chatId,

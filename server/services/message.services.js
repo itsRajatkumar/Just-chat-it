@@ -6,7 +6,6 @@ import { CreateMessage,GetMessagebyChatID } from "../workers/message.workers.js"
 const CreateMessageRoute = async (req, res) => {
   try {
     const data = req.body;
-    console.log(data)
     const responce = await CreateMessage(data);
     // console.log(responce);
     const update = await UpdateChatTimeStamp(data.chat_id,data.message,data.fromName)
@@ -16,8 +15,6 @@ const CreateMessageRoute = async (req, res) => {
     } else {
       return ErrorResponse(res, 404, "Error");
     }
-    // pusher.trigger("newdata","newMessage",data)
-    console.log(data);
   } catch (err) {
     console.log(err)
     ErrorResponse(res, 500, "Internal Server Error");
@@ -30,14 +27,11 @@ const GetAllMessageRoute = async (req, res) => {
     const {page} = req.query
     console.log(id)
     const responce = await GetMessagebyChatID(id,page-1);
-    console.log(responce);
     if (responce.status) {
       return SuccessResponse(res, 201, "Created", responce.data);
     } else {
       return ErrorResponse(res, 404, "Error");
     }
-    // pusher.trigger("newdata","newMessage",data)
-    console.log(data);
   } catch (err) {
     console.log(err)
     ErrorResponse(res, 500, "Internal Server Error");

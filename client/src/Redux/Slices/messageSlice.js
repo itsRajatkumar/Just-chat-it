@@ -18,12 +18,16 @@ export const messageSlice = createSlice({
         state[index].messages.push(action.payload.data)
       }
     },
+    addOlderMessage: (state, action) => {
+      const index=  state.findIndex(i => i.chatId === action.payload.chatId)
+      state[index].messages = [...action.payload.messages, ...state[index].messages]
+    },
     clearMessages: () => initialState,
   },
 });
 
 // this is for dispatch
-export const { addAllMessages,addtoChatid ,clearMessages} = messageSlice.actions;
+export const { addAllMessages,addtoChatid ,clearMessages,addOlderMessage} = messageSlice.actions;
 
 // this is for configureStore
 export default messageSlice.reducer;

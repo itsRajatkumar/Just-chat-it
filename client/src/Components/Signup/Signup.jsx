@@ -6,6 +6,7 @@ import {
   registerWithEmailAndPassword,
   signInWithGoogle,
 } from "../../firebase";
+import { ToastEmmitor } from "../../Utills/OpenToast";
 import "./Signup.css";
 
 function Signup() {
@@ -15,7 +16,18 @@ function Signup() {
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
   const register = () => {
-    if (!name) alert("Please enter name");
+    if (!name) {
+      ToastEmmitor("error", "Please enter name");
+      return;
+    }
+    if (!email) {
+      ToastEmmitor("error", "Please enter Email");
+      return;
+    }
+    if (!password) {
+      ToastEmmitor("error", "Please enter Password");
+      return;
+    }
     registerWithEmailAndPassword(name, email, password);
   };
   useEffect(() => {
